@@ -1,17 +1,29 @@
 import javax.json.Json;
 import java.io.*;
 import java.net.Socket;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.*;
 
 public class Peer {
+    private String name;
+    ServerThread thread;
+
     public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println(">> Enter name");
-        String setupValues = reader.readLine();
+        String name = reader.readLine();
+
 
         // create the server thread
         ServerThread serverThread = new ServerThread("0");
         serverThread.start();
-        new Peer().updateListenToPeers(reader, setupValues, serverThread);
+        Peer user = new Peer();
+        user.name = name;
+        user.thread = serverThread;
+        user.updateListenToPeers(reader, name, serverThread);
+
+
+
     }
 
     public void updateListenToPeers(BufferedReader reader, String name, ServerThread thread) throws Exception {
@@ -27,7 +39,7 @@ public class Peer {
                 // attempt to connect
                 try {
                     socket = new Socket(address[0], Integer.parseInt(address[1]));
-                    new PeerThread(socket).start();
+                    new PeerThread(socket, thread).start();
                 } catch (Exception e) {
                     if (socket != null) {
                         socket.close();
@@ -44,7 +56,7 @@ public class Peer {
 
     public void communicate(BufferedReader reader, String name, ServerThread thread) {
         try {
-            System.out.println("> CONNECTED (e:exit, c:change)");
+            System.out.println("> (e:exit, c:change)");
             boolean flag = true;
             while (flag) {
                 String message = reader.readLine();
