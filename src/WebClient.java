@@ -6,7 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.io.*;
 
 public class WebClient {
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws Exception {
         File file = new File("user/details.txt");
         BufferedReader reader = new BufferedReader(new FileReader(file));
 
@@ -35,6 +35,8 @@ public class WebClient {
                 "]/div/div/div[1]/form/button"));
         signin.click();
 
-
+        // begin communication
+        String[] input = {""};
+        Peer.main(input);
     }
 }

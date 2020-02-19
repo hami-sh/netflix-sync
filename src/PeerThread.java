@@ -36,7 +36,7 @@ public class PeerThread extends Thread{
 
                 } else if (jsonObject.containsKey("time")) {
                     // get received info
-                    System.out.println("PROCESSED @ " + jsonObject.getString("time"));
+//                    System.out.println("PROCESSED @ " + jsonObject.getString("time"));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

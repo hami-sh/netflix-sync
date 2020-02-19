@@ -34,7 +34,7 @@ public class ServerThread extends Thread {
     void sendMessage(String message) {
         try {
             serverThreadThreads.forEach(t -> t.getPrintWriter().println(message));
-            System.out.println("SENT @ " + java.time.LocalTime.now());
+//            System.out.println("SENT @ " + java.time.LocalTime.now());
         } catch (Exception e) {
             e.printStackTrace();
         }

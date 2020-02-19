@@ -1,29 +1,25 @@
 import javax.json.Json;
 import java.io.*;
 import java.net.Socket;
-import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.*;
+//import org.openqa.selenium.*;
+//import org.openqa.selenium.chrome.*;
 
 public class Peer {
     private String name;
     ServerThread thread;
 
     public static void main(String[] args) throws Exception {
+        System.out.println(args[0]);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println(">> Enter name");
         String name = reader.readLine();
-
-
         // create the server thread
-        ServerThread serverThread = new ServerThread("0");
+        ServerThread serverThread = new ServerThread(args[0]);
         serverThread.start();
         Peer user = new Peer();
         user.name = name;
         user.thread = serverThread;
         user.updateListenToPeers(reader, name, serverThread);
-
-
-
     }
 
     public void updateListenToPeers(BufferedReader reader, String name, ServerThread thread) throws Exception {
@@ -65,6 +61,8 @@ public class Peer {
                     break;
                 } else if (message.equals("c")) {
                     updateListenToPeers(reader, name, thread);
+                } else if (message.equals("") || message.equals(" ")) {
+                    // send key to webdriver
                 } else {
                     StringWriter writer = new StringWriter();
                     // create and send the message
